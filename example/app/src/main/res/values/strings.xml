@@ -1,3 +1,4 @@
 <resources>
 	<string name="app_name">Mpos Android Example</string>
+	<string name="action_settings">set</string>
 </resources>
