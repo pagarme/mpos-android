@@ -1,7 +1,5 @@
 package me.pagar.mposandroidexample.listeners;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.OutputStreamWriter;
@@ -10,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+import me.pagar.mposandroidexample.Logger;
 import me.pagar.mposandroid.Mpos;
 import me.pagar.mposandroid.MposListener;
 import me.pagar.mposandroid.MposPaymentResult;
@@ -19,65 +18,67 @@ class MposHandleListener implements MposListener
 {
 	private Mpos mpos;
 	private int amount;
+	private Logger logger;
 
-	MposHandleListener(Mpos mpos, int amount)
+	MposHandleListener(Mpos mpos, int amount, Logger logger)
 	{
 		this.mpos = mpos;
 		this.amount = amount;
+		this.logger = logger;
 	}
 
 	public void bluetoothConnected() {
-		Log.d("Abecs", "Bluetooth connected.");
+		logger.Log("Abecs", "Bluetooth connected.");
 		mpos.initialize();
 	}
 
 	public void bluetoothDisconnected() {
-		Log.d("Abecs", "Bluetooth disconnected.");
+		logger.Log("Abecs", "Bluetooth disconnected.");
 	}
 
 	public void bluetoothErrored(int error) {
-		Log.d("Abecs", "Received bluetooth error");
+		logger.Log("Abecs", "Received bluetooth error");
 	}
 
 	public void receiveInitialization() {
-		Log.d("Abecs", "receive initialization!");
+		logger.Log("Abecs", "receive initialization!");
 		try {
 			mpos.downloadEMVTablesToDevice(true);
 		} catch (Exception e) {
-			Log.d("Abecs", "Got error in initialization and table update " + e.getMessage());
+			logger.Log("Abecs", "Got error in initialization and table update " + e.getMessage());
 		}
 	}
 
 	public void receiveNotification(String notification) {
-		Log.d("Abecs", "Got Notification " + notification);
+		logger.Log("Abecs", "Got Notification " + notification);
 	}
 
 	@Deprecated
 	public void receiveOperationCompleted() {
-		Log.d("Abecs", "Completed");
+		logger.Log("Abecs", "Completed");
 	}
 
 	public void receiveTableUpdated(boolean loaded) {
-		Log.d("Abecs", "received table updated loaded = " + loaded);
+		logger.Log("Abecs", "received table updated loaded = " + loaded);
 
 		mpos.payAmount(amount, null, PaymentMethod.CreditCard);
 	}
 
 	public void receiveFinishTransaction() {
-		Log.d("Abecs", "Finished transaction");
+		logger.Log("Abecs", "Finished transaction");
 		mpos.close("TRANSACAO APROVADA");
 	}
 
 	public void receiveClose() {
-		Log.d("Abecs", "Receive close");
+		logger.Log("Abecs", "Receive close");
 		mpos.closeConnection();
 	}
 
 	public void receiveCardHash(String cardHash, MposPaymentResult result) {
-		Log.d("Abecs", "Card Hash is " + cardHash);
-		Log.d("Abecs", "Card Brand is " + result.cardBrand);
-		Log.d("Abecs", "FD = " + result.cardFirstDigits + " LD = " + result.cardLastDigits);
-		Log.d("Abecs", "ONL = " + result.isOnline);
+		logger.Log("Abecs", "Card Hash is " + cardHash);
+		logger.Log("Abecs", "Card Brand is " + result.cardBrand);
+		logger.Log("Abecs", "FD = " + result.cardFirstDigits + " LD = " + result.cardLastDigits);
+		logger.Log("Abecs", "ONL = " + result.isOnline);
 
 		String query = "api_key=ak_test_NQEfPH4ktp7c9Zb0bpi1u1XkjpFCTH&amount=" + amount + "&card_hash=" + cardHash;
 
@@ -97,13 +98,13 @@ class MposHandleListener implements MposListener
 			int status = connection.getResponseCode();
 			String ss = connection.getResponseMessage();
 
-			Log.d("API response", "[" + status + "] " + ss);
+			logger.Log("API response", "[" + status + "] " + ss);
 
 			HashMap t = new ObjectMapper().readValue(connection.getInputStream(), HashMap.class);
 
-			Log.d("Abecs", "ACR CODE " + t.get("acquirer_response_code"));
-			Log.d("Abecs", "EMV RESPONSE " + t.get("card_emv_response"));
-			Log.d("Abecs", "PIN MODE " + t.get("is_pin_online"));
+			logger.Log("Abecs", "ACR CODE " + t.get("acquirer_response_code"));
+			logger.Log("Abecs", "EMV RESPONSE " + t.get("card_emv_response"));
+			logger.Log("Abecs", "PIN MODE " + t.get("is_pin_online"));
 
 			Object isPinOnlineContent = t.get("is_pin_online");
 			boolean isPinOnline = isPinOnlineContent == null || (Boolean)isPinOnlineContent;
@@ -121,10 +122,10 @@ class MposHandleListener implements MposListener
 	}
 
 	public void receiveError(int error) {
-		Log.d("ABECS", "Received error " + error);
+		logger.Log("ABECS", "Received error " + error);
 	}
 
 	public void receiveOperationCancelled() {
-		Log.d("ABECS", "Cancel");
+		logger.Log("ABECS", "Cancel");
 	}
 }

@@ -11,27 +11,14 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import me.pagar.mposandroid.Mpos;
-import me.pagar.mposandroid.MposListener;
-import me.pagar.mposandroid.MposPaymentResult;
-import me.pagar.mposandroid.PaymentMethod;
 import me.pagar.mposandroidexample.listeners.ClickListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Logger{
 
 	private ListView listView;
 	private ArrayList<String> mDeviceList = new ArrayList<String>();
@@ -43,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		clickListener = new ClickListener(this, abecsList);
+		clickListener = new ClickListener(this, abecsList, this);
 
 		listView = (ListView) findViewById(R.id.listView);
 		listView.setOnItemClickListener(clickListener);
@@ -75,5 +62,9 @@ public class MainActivity extends AppCompatActivity {
 		}
 	};
 
+	@Override
+	public void Log(String type, String text) {
+		Log.d(type, text);
+	}
 }
 
