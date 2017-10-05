@@ -35,16 +35,20 @@ public class MainActivity extends AppCompatActivity implements Logger{
 		listView = (ListView) findViewById(R.id.listView);
 		listView.setOnItemClickListener(clickListener);
 
-		int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
-		ActivityCompat.requestPermissions(this,
-			new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-			MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
+		getBluetoothScanPermission();
 
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		mBluetoothAdapter.startDiscovery();
 
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		registerReceiver(mReceiver, filter);
+	}
+
+	public void getBluetoothScanPermission() {
+		int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
+		ActivityCompat.requestPermissions(this,
+				new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+				MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION);
 	}
 
 	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
