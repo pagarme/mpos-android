@@ -90,12 +90,6 @@ public class MainActivity extends AppCompatActivity {
 						Log.d("Abecs", "receive initialization!");
 						try {
 							mpos.downloadEMVTablesToDevice(true);
-							//EmvApplication a = new EmvApplication(PaymentMethod.CreditCard, "visa");
-							//EmvApplication b = new EmvApplication(PaymentMethod.CreditCard, "mastercard");
-							//ArrayList<EmvApplication> l = new ArrayList<EmvApplication>();
-							//l.add(a);
-							//l.add(b);
-							//mpos.payAmount(5123, l, PaymentMethod.CreditCard);
 						} catch (Exception e) {
 							Log.d("Abecs", "Got error in initialization and table update " + e.getMessage());
 						}
@@ -112,9 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
 					public void receiveTableUpdated(boolean loaded) {
 						Log.d("Abecs", "received table updated loaded = " + loaded);
-						//EmvApplication visaCredit = new EmvApplication(PaymentMethod.DebitCard, "alelo");
-						//ArrayList<EmvApplication> l = new ArrayList<EmvApplication>();
-						//l.add(visaCredit);
 
 						mpos.payAmount(5000, null, PaymentMethod.CreditCard);
 					}
@@ -137,13 +128,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 						String query = "api_key=ak_test_NQEfPH4ktp7c9Zb0bpi1u1XkjpFCTH&amount=5123&card_hash=" + cardHash;
-						/*
-								+ "&split_rules[0][recipient_id]=re_ciyvql3z80003c96dgdxjujr4&split_rules[0][charge_processing_fee]=true"
-								+ "&split_rules[0][liable]=true&split_rules[0][percentage]=25"
-								+ "&split_rules[1][recipient_id]=re_ciyvqn05c00021j6ecdvlowcu&split_rules[1][charge_processing_fee]=true"
-								+ "&split_rules[1][liable]=false&split_rules[1][percentage]=75"
-								+ "&metadata[id_product]=14657&metadata[seller]=lojista123&metadata[mpos_location]=sao_paulo"
-								+ "&capture=true"; */
 
 						try {
 							//POST original do Bob
