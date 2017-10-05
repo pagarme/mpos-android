@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 			Log.d("Abecs", "SELECTED DEVICE " + device.getName());
 
 			try {
+				final int amount = 321;
 
 				final Mpos mpos = new Mpos(abecsList.get(position), "ek_test_f9cws0bU9700VqWE4UDuBlKLbvX4IO", getApplicationContext());
 
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 					public void receiveTableUpdated(boolean loaded) {
 						Log.d("Abecs", "received table updated loaded = " + loaded);
 
-						mpos.payAmount(5000, null, PaymentMethod.CreditCard);
+						mpos.payAmount(amount, null, PaymentMethod.CreditCard);
 					}
 
 					public void receiveFinishTransaction() {
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 						Log.d("Abecs", "ONL = " + result.isOnline);
 
 
-						String query = "api_key=ak_test_NQEfPH4ktp7c9Zb0bpi1u1XkjpFCTH&amount=5123&card_hash=" + cardHash;
+						String query = "api_key=ak_test_NQEfPH4ktp7c9Zb0bpi1u1XkjpFCTH&amount=" + amount + "&card_hash=" + cardHash;
 
 						try {
 							//POST original do Bob
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 							int status = connection.getResponseCode();
 							String ss = connection.getResponseMessage();
 
-							Log.d("Response API: ", ss);
+							Log.d("API response: ", ss);
 
 							HashMap t = new ObjectMapper().readValue(connection.getInputStream(), HashMap.class);
 
