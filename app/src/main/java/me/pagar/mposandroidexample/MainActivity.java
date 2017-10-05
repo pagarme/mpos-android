@@ -21,8 +21,8 @@ import me.pagar.mposandroidexample.listeners.ClickListener;
 public class MainActivity extends AppCompatActivity implements Logger{
 
 	private ListView listView;
-	private ArrayList<String> mDeviceList = new ArrayList<String>();
-	private ArrayList<BluetoothDevice> abecsList = new ArrayList<BluetoothDevice>();
+	private ArrayList<String> mDeviceList = new ArrayList<>();
+	private ArrayList<BluetoothDevice> abecsList = new ArrayList<>();
 	private ClickListener clickListener;
 
 	@Override
