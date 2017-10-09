@@ -27,6 +27,9 @@ repositories {
 	flatDir {
 		dirs 'libs'
 	}
+	maven {
+		url "http://dl.bintray.com/vivareal/maven"
+	}
 }
 
 dependencies {
@@ -38,6 +41,7 @@ dependencies {
 	compile 'com.android.support.constraint:constraint-layout:1.0.2'
 	testCompile 'junit:junit:4.12'
 	compile 'com.android.volley:volley:1.0.0'
+	compile 'br.com.vivareal:cuid-android:0.1.0'
 
 	compile (name:'mpos-android', ext:'aar') {
 		transitive = true
