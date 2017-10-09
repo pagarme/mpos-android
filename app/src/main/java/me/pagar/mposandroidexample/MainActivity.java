@@ -55,13 +55,20 @@ public class MainActivity extends AppCompatActivity implements Logger{
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+
 				BluetoothDevice device = intent
 						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				abecsList.add(device);
-				mDeviceList.add(device.getName() + "\n" + device.getAddress());
-				listView.setAdapter(new ArrayAdapter<>(context,
-						android.R.layout.simple_list_item_1, mDeviceList));
-				listView.setOnItemClickListener(clickListener);
+
+				if (!abecsList.contains(device)) {
+					abecsList.add(device);
+
+					mDeviceList.add(device.getName() + "\n" + device.getAddress());
+
+					listView.setAdapter(new ArrayAdapter<>(context,
+							android.R.layout.simple_list_item_1, mDeviceList));
+
+					listView.setOnItemClickListener(clickListener);
+				}
 			}
 		}
 	};
