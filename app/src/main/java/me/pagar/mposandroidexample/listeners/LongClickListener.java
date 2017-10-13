@@ -9,6 +9,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import me.pagar.mposandroid.Mpos;
+import me.pagar.mposandroid.localtransactionsdb.Searcher;
+import me.pagar.mposandroid.localtransactionsdb.Transaction;
 import me.pagar.mposandroidexample.Logger;
 
 public class LongClickListener implements AdapterView.OnItemLongClickListener
@@ -33,11 +35,11 @@ public class LongClickListener implements AdapterView.OnItemLongClickListener
 		try {
 			final Mpos mpos = new Mpos(abecsList.get(position), "ek_test_f9cws0bU9700VqWE4UDuBlKLbvX4IO", context);
 
-			int count = mpos.getTransactionsSearcher().run().size();
+			Searcher searcher = mpos.getTransactionsSearcher();
 
-			String counter = "Transaction count: " + count;
-			logger.Log("Abecs", counter);
-			Toast.makeText(context, counter, Toast.LENGTH_LONG).show();
+			Toast.makeText(context, String.valueOf(searcher.count()), Toast.LENGTH_LONG).show();
+
+			getPage(searcher, 1);
 
 			return true;
 		}
@@ -45,6 +47,20 @@ public class LongClickListener implements AdapterView.OnItemLongClickListener
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	private void getPage(Searcher searcher, int i) {
+		ArrayList<Transaction> list = searcher.page(i).run();
+
+		int count = list.size();
+
+		String counter = "Transaction count " + i + ": " + count;
+		logger.Log("Abecs", counter);
+		Toast.makeText(context, counter, Toast.LENGTH_LONG).show();
+
+		String date = "Transaction last date 1/" + i + ": " + list.get(0).createdAt;
+		logger.Log("Abecs", date);
+		Toast.makeText(context, date, Toast.LENGTH_LONG).show();
 	}
 }
 
