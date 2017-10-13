@@ -17,6 +17,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import me.pagar.mposandroidexample.listeners.ClickListener;
+import me.pagar.mposandroidexample.listeners.LongClickListener;
+
 
 public class MainActivity extends AppCompatActivity implements Logger{
 
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements Logger{
 	private ArrayList<String> mDeviceList = new ArrayList<>();
 	private ArrayList<BluetoothDevice> abecsList = new ArrayList<>();
 	private ClickListener clickListener;
+	private LongClickListener longClickListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +34,11 @@ public class MainActivity extends AppCompatActivity implements Logger{
 		setContentView(R.layout.activity_main);
 
 		clickListener = new ClickListener(this, abecsList, this);
+		longClickListener = new LongClickListener(this, abecsList, this);
 
 		listView = (ListView) findViewById(R.id.listView);
 		listView.setOnItemClickListener(clickListener);
+		listView.setOnItemLongClickListener(longClickListener);
 
 		getBluetoothScanPermission();
 
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements Logger{
 							android.R.layout.simple_list_item_1, mDeviceList));
 
 					listView.setOnItemClickListener(clickListener);
+					listView.setOnItemLongClickListener(longClickListener);
 				}
 			}
 		}
