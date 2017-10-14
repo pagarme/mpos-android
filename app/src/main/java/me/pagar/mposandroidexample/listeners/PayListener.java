@@ -30,7 +30,7 @@ public class PayListener implements AdapterView.OnItemClickListener
 		try {
 			final Mpos mpos = new Mpos(abecsList.get(position), "ek_test_f9cws0bU9700VqWE4UDuBlKLbvX4IO", context);
 
-			mpos.addListener(new MposHandleListener(mpos, 321));
+			mpos.addListener(new MposHandleListener(context, mpos, 321));
 
 			Log.d("Abecs", "Telling to initialize");
 			mpos.openConnection(false);

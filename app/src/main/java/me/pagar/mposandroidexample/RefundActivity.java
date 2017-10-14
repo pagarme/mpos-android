@@ -43,7 +43,7 @@ public class RefundActivity extends AppCompatActivity {
 		listView.setAdapter(new ArrayAdapter<>(this,
 				android.R.layout.simple_list_item_1, transactionViewList));
 
-		RefundListener refundListener = new RefundListener(transactionList);
+		RefundListener refundListener = new RefundListener(this, transactionList);
 		listView.setOnItemLongClickListener(refundListener);
 	}
 

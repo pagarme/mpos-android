@@ -1,5 +1,6 @@
 package me.pagar.mposandroidexample.listeners;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,11 +18,13 @@ import me.pagar.mposandroid.PaymentMethod;
 
 class MposHandleListener implements MposListener
 {
+	private Context context;
 	private Mpos mpos;
 	private int amount;
 
-	MposHandleListener(Mpos mpos, int amount)
+	MposHandleListener(Context context, Mpos mpos, int amount)
 	{
+		this.context = context;
 		this.mpos = mpos;
 		this.amount = amount;
 	}
@@ -131,7 +134,7 @@ class MposHandleListener implements MposListener
 
 	private void refund() {
 		if (!localTransactionId.isEmpty()) {
-			RefundListener.refund(localTransactionId);
+			RefundListener.refund(context, localTransactionId);
 		}
 	}
 

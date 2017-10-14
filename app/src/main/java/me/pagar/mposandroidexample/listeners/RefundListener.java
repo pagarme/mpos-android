@@ -1,9 +1,11 @@
 package me.pagar.mposandroidexample.listeners;
 
+import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -14,6 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,10 +25,14 @@ import me.pagar.mposandroid.localtransactionsdb.Transaction;
 
 public class RefundListener implements AdapterView.OnItemLongClickListener
 {
+	private Context context;
 	private ArrayList<Transaction> transactionList;
 
-	public RefundListener(ArrayList<Transaction> transactionList)
+	private static final int LIMIT = 3;
+
+	public RefundListener(Context context, ArrayList<Transaction> transactionList)
 	{
+		this.context = context;
 		this.transactionList = transactionList;
 	}
 
@@ -35,24 +42,33 @@ public class RefundListener implements AdapterView.OnItemLongClickListener
 
 		Transaction transaction = transactionList.get(position);
 
-		refund(transaction.localTransactionId);
+		refund(context, transaction.localTransactionId);
 
 		return false;
 	}
 
-	public static void refund(String localTransactionId)
-	{
-		try {
-			StrictMode.ThreadPolicy policy =
+	static void refund(Context context, String localTransactionId) {
+		for (int t = 0; t < LIMIT; t++) {
+			boolean madeIt = tryRefund(context, localTransactionId);
+
+			if (madeIt)
+				return;
+		}
+
+		showMessage(context, "Erro ao fazer estorno");
+	}
+
+	private static boolean tryRefund(Context context, String localTransactionId) {
+		StrictMode.ThreadPolicy policy =
 				new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			StrictMode.setThreadPolicy(policy);
+		StrictMode.setThreadPolicy(policy);
 
-			String query = "api_key=ak_test_NQEfPH4ktp7c9Zb0bpi1u1XkjpFCTH";
+		String query = "api_key=ak_test_NQEfPH4ktp7c9Zb0bpi1u1XkjpFCTH";
+		String uri = "https://api.pagar.me/1/transactions/" + localTransactionId + "/refund";
 
-			URL url = new URL(
-				"https://api.pagar.me/1/transactions/"
-				+ localTransactionId + "/refund"
-			);
+		try {
+
+			URL url = new URL(uri);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
 			connection.setDoOutput(true);
@@ -65,28 +81,32 @@ public class RefundListener implements AdapterView.OnItemLongClickListener
 			writer.close();
 
 			int status = connection.getResponseCode();
-			String message = connection.getResponseMessage();
 
-			HashMap t = new ObjectMapper().readValue(connection.getInputStream(), HashMap.class);
-
-			Log.d("refund", "[" + status + "]" + message);
-
-			for(Object k : t.keySet())
-			{
-				Log.d("refund answer", "[" + k + "]" + t.get(k));
+			int transactionNotRegistered = 404;
+			if (status == transactionNotRegistered) {
+				return true;
 			}
 
+			if (status >= 400) {
+				return false;
+			}
 
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			// Retry will not work either
+			showMessage(context, "Erro ao fazer estorno: url " + uri + " malformada");
+		} catch (ProtocolException ignore) {
+			// Retry will not work either
+			showMessage(context, "Erro ao fazer estorno");
+		} catch (IOException ignore) {
+			return false;
 		}
 
+		return true;
+	}
+
+	private static void showMessage(Context context, String text)
+	{
+		Toast.makeText(context, text, Toast.LENGTH_LONG).show();
 	}
 }
 
