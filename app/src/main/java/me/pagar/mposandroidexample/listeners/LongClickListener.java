@@ -2,6 +2,7 @@ package me.pagar.mposandroidexample.listeners;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -11,26 +12,23 @@ import java.util.ArrayList;
 import me.pagar.mposandroid.Mpos;
 import me.pagar.mposandroid.localtransactionsdb.Searcher;
 import me.pagar.mposandroid.localtransactionsdb.Transaction;
-import me.pagar.mposandroidexample.Logger;
 
 public class LongClickListener implements AdapterView.OnItemLongClickListener
 {
 	private Context context;
 	private ArrayList<BluetoothDevice> abecsList;
-	private Logger logger;
 
-	public LongClickListener(Context context, ArrayList<BluetoothDevice> abecsList, Logger logger)
+	public LongClickListener(Context context, ArrayList<BluetoothDevice> abecsList)
 	{
 		this.context = context;
 		this.abecsList = abecsList;
-		this.logger = logger;
 	}
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 		view.setSelected(true);
 		BluetoothDevice device = abecsList.get(position);
-		logger.Log("Abecs", "SELECTED DEVICE " + device.getName());
+		Log.d("Abecs", "SELECTED DEVICE " + device.getName());
 
 		try {
 			final Mpos mpos = new Mpos(abecsList.get(position), "ek_test_f9cws0bU9700VqWE4UDuBlKLbvX4IO", context);
@@ -55,11 +53,11 @@ public class LongClickListener implements AdapterView.OnItemLongClickListener
 		int count = list.size();
 
 		String counter = "Transaction count " + i + ": " + count;
-		logger.Log("Abecs", counter);
+		Log.d("Abecs", counter);
 		Toast.makeText(context, counter, Toast.LENGTH_LONG).show();
 
 		String date = "Transaction last date 1/" + i + ": " + list.get(0).createdAt;
-		logger.Log("Abecs", date);
+		Log.d("Abecs", date);
 		Toast.makeText(context, date, Toast.LENGTH_LONG).show();
 	}
 }

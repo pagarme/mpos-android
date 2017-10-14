@@ -20,7 +20,7 @@ import me.pagar.mposandroidexample.listeners.ClickListener;
 import me.pagar.mposandroidexample.listeners.LongClickListener;
 
 
-public class MainActivity extends AppCompatActivity implements Logger{
+public class MainActivity extends AppCompatActivity {
 
 	private ListView listView;
 	private ArrayList<String> mDeviceList = new ArrayList<>();
@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity implements Logger{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		clickListener = new ClickListener(this, abecsList, this);
-		longClickListener = new LongClickListener(this, abecsList, this);
+		clickListener = new ClickListener(this, abecsList);
+		longClickListener = new LongClickListener(this, abecsList);
 
 		listView = (ListView) findViewById(R.id.listView);
 		listView.setOnItemClickListener(clickListener);
@@ -75,10 +75,5 @@ public class MainActivity extends AppCompatActivity implements Logger{
 			}
 		}
 	};
-
-	@Override
-	public void Log(String type, String text) {
-		Log.d(type, text);
-	}
 }
 
