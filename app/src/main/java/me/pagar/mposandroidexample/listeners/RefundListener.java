@@ -35,6 +35,13 @@ public class RefundListener implements AdapterView.OnItemLongClickListener
 
 		Transaction transaction = transactionList.get(position);
 
+		refund(transaction.localTransactionId);
+
+		return false;
+	}
+
+	public static void refund(String localTransactionId)
+	{
 		try {
 			StrictMode.ThreadPolicy policy =
 				new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -44,7 +51,7 @@ public class RefundListener implements AdapterView.OnItemLongClickListener
 
 			URL url = new URL(
 				"https://api.pagar.me/1/transactions/"
-				+ transaction.localTransactionId + "/refund"
+				+ localTransactionId + "/refund"
 			);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -80,7 +87,6 @@ public class RefundListener implements AdapterView.OnItemLongClickListener
 			e.printStackTrace();
 		}
 
-		return false;
 	}
 }
 

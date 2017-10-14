@@ -79,6 +79,8 @@ class MposHandleListener implements MposListener
 		Log.d("Abecs", "FD = " + result.cardFirstDigits + " LD = " + result.cardLastDigits);
 		Log.d("Abecs", "ONL = " + result.isOnline);
 
+		localTransactionId = result.localTransactionId;
+
 		String query = "api_key=ak_test_NQEfPH4ktp7c9Zb0bpi1u1XkjpFCTH&amount=" + amount + "&card_hash=" + cardHash;
 
 		try {
@@ -115,13 +117,22 @@ class MposHandleListener implements MposListener
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			//mpos.finishTransaction(false, 0, null);
+			refund();
 			mpos.close("OOPS");
 		}
 	}
 
 	public void receiveError(int error) {
+		refund();
 		Log.d("ABECS", "Received error " + error);
+	}
+
+	private String localTransactionId = "";
+
+	private void refund() {
+		if (!localTransactionId.isEmpty()) {
+			RefundListener.refund(localTransactionId);
+		}
 	}
 
 	public void receiveOperationCancelled() {
