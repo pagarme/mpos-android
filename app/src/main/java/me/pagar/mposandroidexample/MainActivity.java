@@ -71,9 +71,6 @@ public class MainActivity extends AppCompatActivity implements Logger{
 
 					listView.setAdapter(new ArrayAdapter<>(context,
 							android.R.layout.simple_list_item_1, mDeviceList));
-
-					listView.setOnItemClickListener(clickListener);
-					listView.setOnItemLongClickListener(longClickListener);
 				}
 			}
 		}
