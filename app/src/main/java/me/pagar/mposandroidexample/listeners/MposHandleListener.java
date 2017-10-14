@@ -105,10 +105,10 @@ class MposHandleListener implements MposListener
 			Log.d("Abecs", "EMV RESPONSE " + t.get("card_emv_response"));
 			Log.d("Abecs", "PIN MODE " + t.get("is_pin_online"));
 
-			Object isPinOnlineContent = t.get("is_pin_online");
-			boolean isPinOnline = isPinOnlineContent == null || (Boolean)isPinOnlineContent;
+			String captureMethod = (String) t.get("capture_method");
+			boolean isEmv = captureMethod.equals("emv");
 
-			if (isPinOnline) {
+			if (isEmv) {
 				mpos.finishTransaction(true, Integer.parseInt((String) t.get("acquirer_response_code")), (String) t.get("card_emv_response"));
 			}else{
 				mpos.close("TRANSACAO APROVADA");
