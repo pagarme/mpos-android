@@ -16,29 +16,24 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import me.pagar.mposandroidexample.listeners.ClickListener;
-import me.pagar.mposandroidexample.listeners.LongClickListener;
+import me.pagar.mposandroidexample.listeners.PayListener;
 
 
-public class MainActivity extends AppCompatActivity {
+public class PaymentActivity extends AppCompatActivity {
 
 	private ListView listView;
 	private ArrayList<String> mDeviceList = new ArrayList<>();
 	private ArrayList<BluetoothDevice> abecsList = new ArrayList<>();
-	private ClickListener clickListener;
-	private LongClickListener longClickListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.payment);
 
-		clickListener = new ClickListener(this, abecsList);
-		longClickListener = new LongClickListener(this, abecsList);
+		PayListener payListener = new PayListener(this, abecsList);
 
 		listView = (ListView) findViewById(R.id.listView);
-		listView.setOnItemClickListener(clickListener);
-		listView.setOnItemLongClickListener(longClickListener);
+		listView.setOnItemClickListener(payListener);
 
 		getBluetoothScanPermission();
 

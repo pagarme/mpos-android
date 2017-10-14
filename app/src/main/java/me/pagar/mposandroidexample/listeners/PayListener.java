@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 import me.pagar.mposandroid.Mpos;
 
-public class ClickListener implements AdapterView.OnItemClickListener
+public class PayListener implements AdapterView.OnItemClickListener
 {
 	private Context context;
 	private ArrayList<BluetoothDevice> abecsList;
 
-	public ClickListener(Context context, ArrayList<BluetoothDevice> abecsList)
+	public PayListener(Context context, ArrayList<BluetoothDevice> abecsList)
 	{
 		this.context = context;
 		this.abecsList = abecsList;
