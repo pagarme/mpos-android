@@ -120,5 +120,14 @@ public class PaymentActivity extends AppCompatActivity implements OnRequestPermi
 			}
 		}
 	};
+
+
+	public void goToRefund(MenuItem item) {
+		Intent refund = new Intent(this, RefundActivity.class);
+		startActivity(refund);
+	}
+
+
+
 }
 

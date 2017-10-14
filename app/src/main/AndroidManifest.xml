@@ -14,13 +14,19 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-		<activity android:name=".PaymentActivity">
+		<activity android:name=".PaymentActivity"
+			android:label="@string/payment_title"
+		>
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
+		<activity android:name=".RefundActivity"
+			android:parentActivityName=".PaymentActivity"
+			android:label="@string/refund_title"
+		/>
 	</application>
 
 </manifest>

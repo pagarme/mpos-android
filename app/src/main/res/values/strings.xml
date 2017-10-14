@@ -1,4 +1,7 @@
 <resources>
-	<string name="app_name">Mpos Android Example</string>
-	<string name="action_settings">set</string>
+	<string name="app_name">Mpos Exemplo</string>
+	<string name="refund">Estorno</string>
+	<string name="payment_title">Mpos Exemplo - fazer transação</string>
+	<string name="refund_title">Mpos Exemplo - estornar transações</string>
+	<string name="denyPermission">Sem a permissão, não é possível listar os dispositivos bluetooth</string>
 </resources>
