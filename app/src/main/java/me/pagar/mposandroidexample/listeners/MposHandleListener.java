@@ -21,6 +21,7 @@ class MposHandleListener implements MposListener
 	private Context context;
 	private Mpos mpos;
 	private int amount;
+	private String localTransactionId = "";
 
 	MposHandleListener(Context context, Mpos mpos, int amount)
 	{
@@ -118,6 +119,8 @@ class MposHandleListener implements MposListener
 			}else{
 				mpos.close("TRANSACAO APROVADA");
 			}
+
+			localTransactionId = "";
 		} catch (Exception e) {
 			e.printStackTrace();
 			refund();
@@ -130,12 +133,12 @@ class MposHandleListener implements MposListener
 		Log.d("ABECS", "Received error " + error);
 	}
 
-	private String localTransactionId = "";
-
 	private void refund() {
 		if (!localTransactionId.isEmpty()) {
 			RefundListener.refund(context, localTransactionId);
 		}
+
+		localTransactionId = "";
 	}
 
 	public void receiveOperationCancelled() {
