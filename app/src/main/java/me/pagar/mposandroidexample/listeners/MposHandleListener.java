@@ -113,17 +113,23 @@ class MposHandleListener implements MposListener
 			Log.d("Abecs", "ACR CODE " + responseCode);
 			Log.d("Abecs", "EMV RESPONSE " + emvResponse);
 
-			if (isEmv) {
-				mpos.finishTransaction(true, Integer.parseInt((String) t.get("acquirer_response_code")), (String) t.get("card_emv_response"));
-			}else{
-				mpos.close("TRANSACAO APROVADA");
+			if (result.isOnline) {
+				mpos.finishTransaction(true, Integer.parseInt(responseCode), emvResponse);
+			} else {
+				mpos.close("Response code: " + responseCode);
 			}
 
 			localTransactionId = "";
 		} catch (Exception e) {
 			e.printStackTrace();
+
+			if (result.isOnline) {
+				mpos.finishTransaction(false, 0, null);
+			} else {
+				mpos.close("Oops");
+			}
+
 			refund();
-			mpos.close("OOPS");
 		}
 	}
 
