@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import java.util.ArrayList;
 
 import me.pagar.mposandroid.Mpos;
+import me.pagar.mposandroidexample.Config;
 
 public class PayListener implements AdapterView.OnItemClickListener
 {
@@ -28,7 +29,7 @@ public class PayListener implements AdapterView.OnItemClickListener
 		Log.d("Abecs", "SELECTED DEVICE " + device.getName());
 
 		try {
-			final Mpos mpos = new Mpos(abecsList.get(position), "ek_test_f9cws0bU9700VqWE4UDuBlKLbvX4IO", context);
+			final Mpos mpos = new Mpos(abecsList.get(position), Config.encryptionKey, context);
 
 			mpos.addListener(new MposHandleListener(context, mpos, 321));
 

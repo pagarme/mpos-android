@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import me.pagar.mposandroid.localtransactionsdb.Transaction;
+import me.pagar.mposandroidexample.Config;
 
 public class RefundListener implements AdapterView.OnItemLongClickListener
 {
@@ -57,7 +58,7 @@ public class RefundListener implements AdapterView.OnItemLongClickListener
 				new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 
-		String query = "api_key=ak_test_NQEfPH4ktp7c9Zb0bpi1u1XkjpFCTH";
+		String query = "api_key=" + Config.apiKey;
 		String uri = "https://api.pagar.me/1/transactions/" + localTransactionId + "/refund";
 
 		try {

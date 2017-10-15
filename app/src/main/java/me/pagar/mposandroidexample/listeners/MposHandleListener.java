@@ -15,6 +15,7 @@ import me.pagar.mposandroid.Mpos;
 import me.pagar.mposandroid.MposListener;
 import me.pagar.mposandroid.MposPaymentResult;
 import me.pagar.mposandroid.PaymentMethod;
+import me.pagar.mposandroidexample.Config;
 
 class MposHandleListener implements MposListener
 {
@@ -85,7 +86,10 @@ class MposHandleListener implements MposListener
 
 		localTransactionId = result.localTransactionId;
 
-		String query = "api_key=ak_test_NQEfPH4ktp7c9Zb0bpi1u1XkjpFCTH&amount=" + amount + "&card_hash=" + cardHash;
+		String query =
+			"api_key=" + Config.apiKey
+			+ "&amount=" + amount
+			+ "&card_hash=" + cardHash;
 
 		try {
 			URL url = new URL("https://api.pagar.me/1/transactions");
