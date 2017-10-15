@@ -5,11 +5,6 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -19,7 +14,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import me.pagar.mposandroid.localtransactionsdb.Transaction;
 
@@ -106,7 +100,7 @@ public class RefundListener implements AdapterView.OnItemLongClickListener
 
 	private static void showMessage(Context context, String text)
 	{
-		Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+		Log.d("refund-show-message", text);
 	}
 }
 
