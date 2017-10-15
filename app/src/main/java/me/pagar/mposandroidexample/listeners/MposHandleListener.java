@@ -107,12 +107,11 @@ class MposHandleListener implements MposListener
 
 			HashMap t = new ObjectMapper().readValue(connection.getInputStream(), HashMap.class);
 
-			Log.d("Abecs", "ACR CODE " + t.get("acquirer_response_code"));
-			Log.d("Abecs", "EMV RESPONSE " + t.get("card_emv_response"));
-			Log.d("Abecs", "PIN MODE " + t.get("is_pin_online"));
+			String responseCode = (String) t.get("acquirer_response_code");
+			String emvResponse = (String) t.get("card_emv_response");
 
-			String captureMethod = (String) t.get("capture_method");
-			boolean isEmv = captureMethod.equals("emv");
+			Log.d("Abecs", "ACR CODE " + responseCode);
+			Log.d("Abecs", "EMV RESPONSE " + emvResponse);
 
 			if (isEmv) {
 				mpos.finishTransaction(true, Integer.parseInt((String) t.get("acquirer_response_code")), (String) t.get("card_emv_response"));
@@ -131,6 +130,7 @@ class MposHandleListener implements MposListener
 	public void receiveError(int error) {
 		refund();
 		Log.d("ABECS", "Received error " + error);
+		mpos.close("ERROR " + error);
 	}
 
 	private void refund() {
