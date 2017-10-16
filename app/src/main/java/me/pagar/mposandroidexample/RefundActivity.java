@@ -59,7 +59,7 @@ public class RefundActivity extends AppCompatActivity {
 		@Override
 		public String toString() {
 			return amount2String(transaction.amount)
-				+ "\n" + date2String(transaction.createdAt)
+				+ "\n" + dateToString(transaction.createdAt)
 				+ "\n" + transaction.firstDigits + "******" + transaction.lastDigits;
 		}
 
@@ -70,7 +70,7 @@ public class RefundActivity extends AppCompatActivity {
 			return format.format(amount / 100f);
 		}
 
-		private String date2String(Date date)
+		private String dateToString(Date date)
 		{
 			try {
 				String pattern = "yyyy-MM-dd HH:mm:ss";
