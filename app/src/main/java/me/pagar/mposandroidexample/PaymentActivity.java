@@ -108,8 +108,9 @@ public class PaymentActivity extends AppCompatActivity implements OnRequestPermi
 
 				BluetoothDevice device = intent
 						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				boolean isBonded = device.getBondState() == BluetoothDevice.BOND_BONDED;
 
-				if (!abecsList.contains(device)) {
+				if (isBonded && !abecsList.contains(device)) {
 					abecsList.add(device);
 
 					mDeviceList.add(device.getName() + "\n" + device.getAddress());
